@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>災害への備えの地図</title>
+<meta name="description" content="Koda M, et al. International Journal of Disaster Risk Reduction 2026;143:106317 の図1と補足表S5を、6つの備えの行動を選んで見られる都道府県地図にしました。">
+<link rel="stylesheet" href="style.css?v=1">
+</head>
+<body>
+<header class="top">
+  <div class="title">
+    <h1 data-t="title">災害への備えの地図</h1>
+    <p class="sub" data-t="sub">IJDRR 2026 図1・補足表S5（都道府県別）</p>
+  </div>
+  <button type="button" id="lang" class="lang" aria-label="Switch language">EN</button>
+</header>
+
+<main class="layout">
+  <aside class="panel" aria-label="設定">
+    <div class="field" role="group" aria-labelledby="itemLabel"><span id="itemLabel" data-t="item">備えの行動</span>
+      <div class="seg seg-v" id="item"></div>
+    </div>
+    <p class="explain" id="explain"></p>
+    <div class="nav">
+      <button type="button" id="prev" data-t="prev">← 前の行動</button>
+      <button type="button" id="next" data-t="next">次の行動 →</button>
+    </div>
+  </aside>
+
+  <section class="mapwrap">
+    <h2 id="heading"></h2>
+    <p class="national" id="national"></p>
+    <div id="map" class="map" aria-live="polite"></div>
+    <div id="tip" class="tip" hidden></div>
+    <div id="legend" class="legend"></div>
+  </section>
+
+  <section class="listwrap">
+    <div class="listhead">
+      <h2 data-t="listTitle">都道府県の値と95%信頼区間</h2>
+      <div class="seg seg-sm" id="sort"></div>
+    </div>
+    <ol id="list" class="list"></ol>
+  </section>
+</main>
+
+<footer class="foot">
+  <p id="note"></p>
+  <p id="cite"></p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
+<script src="app.js?v=1"></script>
+</body>
+</html>

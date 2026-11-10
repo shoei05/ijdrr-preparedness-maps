@@ -22,7 +22,7 @@
       panel: '図1', national: (v) => `全国 ${v[0].toFixed(1)}%（95%信頼区間 ${v[1].toFixed(1)}〜${v[2].toFixed(1)}）`,
       ci: '95%信頼区間', n: '回答者数', nat: '全国', pct: '重み付き割合（%）',
       zoom: 'ホイールやピンチで拡大、ドラッグで移動、ダブルクリックで戻ります。都道府県をクリックすると強調します。',
-      note: '2023年のインターネット調査（JACSIS2023）の回答者28,481人について、性別・年齢などの重みをつけて計算した割合です。値は論文の補足表S5と同じです。回答者の少ない県では信頼区間が広く、県どうしの差は誤差の範囲であることが多いので、右の一覧の信頼区間とあわせて見てください。色の範囲は図1と同じく、6つの行動で共通の5〜60%です。北海道と沖縄県は位置をずらして表示しています。本人の回答にもとづく割合で、実際に備えができているかを確かめたものではありません。',
+      note: '2023年のインターネット調査（JACSIS2023）の回答者28,481人について、回答者のかたよりを補正する重み（逆確率重み）をつけて計算した割合です。値は論文の補足表S5と同じです。回答者の少ない県では信頼区間が広く、県どうしの差は誤差の範囲であることが多いので、右の一覧の信頼区間とあわせて見てください。色の範囲は6つの行動で共通（5〜60%）です。北海道と沖縄県は位置をずらして表示しています。本人の回答にもとづく割合で、実際に備えができているかを確かめたものではありません。',
       cite: `出典：${CITE}（CC BY 4.0）`,
     },
     en: {
@@ -45,7 +45,7 @@
       panel: 'Figure 1', national: (v) => `Japan overall ${v[0].toFixed(1)}% (95% CI ${v[1].toFixed(1)}–${v[2].toFixed(1)})`,
       ci: '95% CI', n: 'Respondents', nat: 'Japan overall', pct: 'Weighted prevalence (%)',
       zoom: 'Scroll or pinch to zoom, drag to pan, double-click to reset. Click a prefecture to highlight it.',
-      note: 'Weighted prevalence among 28,481 respondents to the 2023 Japan COVID-19 and Society Internet Survey (JACSIS2023), as reported in Supplementary Table S5. Prefectures with few respondents have wide confidence intervals, and many differences between prefectures are within sampling error; read the map together with the intervals in the list. As in Figure 1, the colour range (5–60%) is shared by all six behaviors. Hokkaido and Okinawa are repositioned. Values are respondent-reported and were not verified.',
+      note: 'Weighted prevalence (standardized inverse probability weighting) among 28,481 respondents to the 2023 Japan COVID-19 and Society Internet Survey (JACSIS2023), as reported in Supplementary Table S5. Prefectures with few respondents have wide confidence intervals, and many differences between prefectures are within sampling error; read the map together with the intervals in the list. The colour range (5–60%) is shared by all six behaviors. Hokkaido and Okinawa are repositioned. Values are respondent-reported and were not verified.',
       cite: `Source: ${CITE} (CC BY 4.0)`,
     },
   };

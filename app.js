@@ -21,6 +21,7 @@
       explainPre: '調査票の', explainPost: 'に「はい」と答えた人の割合です。',
       panel: '図1', national: (v) => `全国 ${v[0].toFixed(1)}%（95%信頼区間 ${v[1].toFixed(1)}〜${v[2].toFixed(1)}）`,
       ci: '95%信頼区間', n: '回答者数', nat: '全国', pct: '重み付き割合（%）',
+      toLight: 'ライト', toDark: 'ダーク', themeAria: (d) => d ? 'ライト表示に切り替え' : 'ダーク表示に切り替え',
       zoom: 'ホイールやピンチで拡大、ドラッグで移動、ダブルクリックで戻ります。都道府県をクリックすると強調します。',
       note: '2023年のインターネット調査（JACSIS2023）の回答者28,481人について、回答者のかたよりを補正する重み（逆確率重み）をつけて計算した割合です。値は論文の補足表S5と同じです。回答者の少ない県では信頼区間が広く、県どうしの差は誤差の範囲であることが多いので、右の一覧の信頼区間とあわせて見てください。色の範囲は6つの行動で共通（5〜60%）です。北海道と沖縄県は位置をずらして表示しています。本人の回答にもとづく割合で、実際に備えができているかを確かめたものではありません。',
       cite: `出典：${CITE}（CC BY 4.0）`,
@@ -44,6 +45,7 @@
       explainPre: 'Weighted percentage of respondents answering yes to ', explainPost: '.',
       panel: 'Figure 1', national: (v) => `Japan overall ${v[0].toFixed(1)}% (95% CI ${v[1].toFixed(1)}–${v[2].toFixed(1)})`,
       ci: '95% CI', n: 'Respondents', nat: 'Japan overall', pct: 'Weighted prevalence (%)',
+      toLight: 'Light', toDark: 'Dark', themeAria: (d) => d ? 'Switch to light theme' : 'Switch to dark theme',
       zoom: 'Scroll or pinch to zoom, drag to pan, double-click to reset. Click a prefecture to highlight it.',
       note: 'Weighted prevalence (standardized inverse probability weighting) among 28,481 respondents to the 2023 Japan COVID-19 and Society Internet Survey (JACSIS2023), as reported in Supplementary Table S5. Prefectures with few respondents have wide confidence intervals, and many differences between prefectures are within sampling error; read the map together with the intervals in the list. The colour range (5–60%) is shared by all six behaviors. Hokkaido and Okinawa are repositioned. Values are respondent-reported and were not verified.',
       cite: `Source: ${CITE} (CC BY 4.0)`,
@@ -130,8 +132,26 @@
 
   function buildControls() {
     $('lang').onclick = () => { state.lang = state.lang === 'ja' ? 'en' : 'ja'; try { localStorage.setItem('lang', state.lang); } catch (e) {} render(); };
+    $('theme').onclick = () => {
+      const next = isDark() ? 'light' : 'dark';
+      document.documentElement.dataset.theme = next;
+      try { localStorage.setItem('theme', next); } catch (e) {}
+      drawTheme();
+    };
+    try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', drawTheme); } catch (e) {}
     const step = (dir) => { state.item = (state.item + dir + 6) % 6; render(); };
     $('prev').onclick = () => step(-1); $('next').onclick = () => step(1);
+  }
+
+  function isDark() {
+    const th = document.documentElement.dataset.theme;
+    if (th === 'light' || th === 'dark') return th === 'dark';
+    return matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+  function drawTheme() {
+    const L = t(), d = isDark();
+    $('theme').textContent = d ? `☀ ${L.toLight}` : `☾ ${L.toDark}`;
+    $('theme').setAttribute('aria-label', L.themeAria(d));
   }
 
   function seg(el, items, key) {
@@ -151,6 +171,7 @@
     document.title = L.title;
     document.querySelectorAll('[data-t]').forEach((el) => { const v = L[el.dataset.t]; if (typeof v === 'string') el.textContent = v; });
     $('lang').textContent = state.lang === 'ja' ? 'EN' : '日本語';
+    drawTheme();
     seg($('item'), Object.fromEntries(L.items.map((s, i) => [i, `${PANEL[i]}. ${s}`])), 'item');
     seg($('sort'), L.sorts, 'sort');
     $('explain').textContent = `${L.explainPre}${L.question[state.item]}${L.explainPost}`;
